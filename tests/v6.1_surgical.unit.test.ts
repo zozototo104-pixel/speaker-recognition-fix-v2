@@ -231,7 +231,7 @@ test('EN1: Server-side enrollment endpoint extracts 512-D via ONNX Worker (sourc
   // Verify /api/speech/register-multi exists and uses speechEngine.getProvider().extractEmbedding
   assert.ok(SERVER_SOURCE.includes("app.post('/api/speech/register-multi'"),
     'Multi-sample enrollment endpoint must exist');
-  assert.ok(SERVER_SOURCE.includes('speechEngine.getProvider().extractEmbedding(pcm)'),
+  assert.ok(SERVER_SOURCE.includes('speechEngine.getProvider().extractEmbedding('),
     'Server must extract embeddings via the SAME provider as live recognition');
   assert.ok(SERVER_SOURCE.includes('health.neuralAvailable'),
     'Server must verify neural model availability before enrollment');

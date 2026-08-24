@@ -23,6 +23,7 @@ import {
   updateSessionTitle,
 } from './src/db/chat.ts';
 import { getPersistentSpeakerProfiles, replacePersistentSpeakerProfiles } from './src/db/speakers.ts';
+import { AudioFeatures } from './src/lib/speaker/AudioFeatures.ts';
 import { requireAuth } from './src/middleware/auth.ts';
 import multer from 'multer';
 // P0-4 + P1-7 FIX: raise upload cap from 25 MB to 100 MB so larger regulation
@@ -4473,7 +4474,8 @@ console.log(
   `[Speaker:EnrollAudio] name=${name.trim()} sample=${i} duration=${enrollDurationSec.toFixed(3)}s samples=${pcm.length} rms=${enrollRms.toFixed(5)} peak=${enrollPeak.toFixed(5)}`
 );
         // Extract embedding via ONNX Worker (same path as live recognition)
-        const emb = await speechEngine.getProvider().extractEmbedding(pcm);
+        const embeddingPcm = AudioFeatures.prepareEnrollmentEmbeddingPcm(pcm);
+        const emb = await speechEngine.getProvider().extractEmbedding(embeddingPcm);
         if (!Array.isArray(emb) || emb.length !== 512) {
           sampleErrors.push({ index: i, error: `EMBEDDING_DIM_INVALID (${Array.isArray(emb) ? emb.length : 0})` });
           continue;

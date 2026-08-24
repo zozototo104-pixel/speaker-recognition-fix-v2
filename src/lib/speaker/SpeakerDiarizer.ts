@@ -16,11 +16,19 @@ export class SpeakerDiarizer {
   private currentSpeakerId: string | null = null;
   private currentSpeakerName: string | null = null;
 
+  private readonly registry: SpeakerRegistry;
+  private readonly provider: SpeakerEmbeddingProvider;
+  private readonly callbacks: SpeakerDiarizerCallbacks;
+
   constructor(
-    private readonly registry: SpeakerRegistry,
-    private readonly provider: SpeakerEmbeddingProvider,
-    private readonly callbacks: SpeakerDiarizerCallbacks = {},
-  ) {}
+    registry: SpeakerRegistry,
+    provider: SpeakerEmbeddingProvider,
+    callbacks: SpeakerDiarizerCallbacks = {},
+  ) {
+    this.registry = registry;
+    this.provider = provider;
+    this.callbacks = callbacks;
+  }
 
   public pushAudioChunk(chunk: Float32Array): void {
     if (!chunk?.length) return;

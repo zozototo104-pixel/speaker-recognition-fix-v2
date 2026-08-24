@@ -83,7 +83,7 @@ export async function getPersistentSpeakerProfiles(ownerId: string): Promise<Per
   });
 }
 
-export async function replacePersistentSpeakerProfiles(ownerId: string, profiles: SpeakerProfile[], allowInsert = true): Promise<void> {
+export async function replacePersistentSpeakerProfiles(ownerId: string, profiles: SpeakerProfile[], allowInsert = true, _testDbClient?: any): Promise<void> {
   if (!ownerId) return;
   // V6.1.1 FIX 1 — NON-DESTRUCTIVE PERSISTENCE
   // Previously this function did a full-state replacement: after upserting
@@ -115,7 +115,7 @@ export async function replacePersistentSpeakerProfiles(ownerId: string, profiles
     && !String(profile.id).startsWith('unknown_'),
   );
 
-  await db.transaction(async (tx) => {
+  await (_testDbClient || db).transaction(async (tx: any) => {
     for (const profile of cleanProfiles) {
       if (!allowInsert) {
         await tx.update(speakerProfiles)

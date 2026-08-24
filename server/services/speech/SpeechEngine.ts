@@ -1,4 +1,5 @@
 import { SpeakerRegistry } from '../../../src/lib/speaker/SpeakerRegistry.ts';
+import { AudioFeatures } from '../../../src/lib/speaker/AudioFeatures.ts';
 import { SpeakerDiarizer } from '../../../src/lib/speaker/SpeakerDiarizer.ts';
 import { SPEAKER_THRESHOLDS } from '../../../src/lib/speaker/types.ts';
 import type {
@@ -311,7 +312,8 @@ export class SpeechEngine {
     let embedding: number[] | undefined;
 
     if (initialPcmOrEmbedding instanceof Float32Array) {
-      embedding = await this.provider.extractEmbedding(initialPcmOrEmbedding);
+      const embeddingPcm = AudioFeatures.prepareEnrollmentEmbeddingPcm(initialPcmOrEmbedding);
+      embedding = await this.provider.extractEmbedding(embeddingPcm);
     } else if (Array.isArray(initialPcmOrEmbedding)) {
       embedding = initialPcmOrEmbedding;
     }

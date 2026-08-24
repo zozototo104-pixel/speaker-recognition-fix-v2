@@ -242,6 +242,10 @@ export class AudioFeatures {
   }
 
 
+  public static prepareEnrollmentEmbeddingPcm(pcm: Float32Array): Float32Array {
+    return this.prepareEmbeddingWindow(pcm);
+  }
+
   public static prepareEmbeddingWindow(pcm: Float32Array): Float32Array {
     if (!pcm?.length) return pcm;
     const sampleRate = 16000;
