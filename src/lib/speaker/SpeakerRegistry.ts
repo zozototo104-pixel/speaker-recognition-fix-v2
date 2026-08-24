@@ -477,9 +477,6 @@ if (!isCandidate) {
            }
         }
         this.deleteSpeaker(candidateId);
-        if (this.callbacks?.onDebugLog) {
-           this.callbacks.onDebugLog(`[Speaker:CandidateMerge] candidateId=${candidateId} targetSpeakerId=${existing.id} name=${cleanName} embeddingsMerged=${added} samplesBefore=${beforeSamples} samplesAfter=${existing.sampleCount}`);
-        }
         return existing;
     }
 
